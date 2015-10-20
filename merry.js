@@ -57,7 +57,7 @@ function roomName(x)
 
 function roomId(x)
 {
-	return ord(x)-ord('A')
+	return ord(x.toUpperCase())-ord('A')
 }
 
 function roomX(x)
