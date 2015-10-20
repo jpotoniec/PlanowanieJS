@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sokoban w PDDL</title>
+<script src="http://www.cs.put.poznan.pl/jpotoniec/sokoban/jquery-1.11.1.min.js"></script>
+<script src='http://www.cs.put.poznan.pl/jpotoniec/sokoban/jcanvas.min.js'></script>
+<script src='common.js'></script>
+<script src='sokoban.js'></script>
+<script>
+$(function(){reset()});
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="container">
+<div class="jumbotron">
+<h1>Sokoban</h1>
+<p>
+Przesuń paczki na pola docelowe
+</p>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+<p>
+<a href="http://pl.wikipedia.org/wiki/Sokoban">Sokoban</a> to stara gra
+komputerowa, w której celem jest takie pokierowanie robotem, żeby przesunąć
+paczki na wyznaczone miejsca. Robot potrafi paczki tylko pchać, nigdy ciągnąć
+albo nieść. Nie może też pchać kilku paczek jednocześnie albo przechodzić przez
+nie.
+</p>
+<p>Opisz problem Sokoban jako problem automatycznego planowania w języku PDDL. W uzyskanym planie powinny występować dwa typy akcji: takie o nazwie
+zaczynającej się od <code>idz</code> i takie o nazwie zaczynającej się od
+<code>pchaj</code>. W obu przypadkach pierwszy argument to pole źródłowe (na
+którym jest robot), a drugi to pole docelowe (na którym robot się znajdzie). Ewentualne pozostałe argumenty zostaną zignorowane.
+<code>idz</code> należy stosować wtedy, gdy przed robotem nie ma paczki, a
+<code>pchaj</code> gdy paczka jest.</p>
+<p>Wykorzystaj opis instancji problemu zamieszczony w polu tekstowym na dole strony. <code>f_<em>x</em>_<em>y</em></code> to
+identyfikatory pól, predykat <code style="color: gray">podloga</code> oznacza
+miejsce gdzie może być paczka bądź robot, <code style="color:
+red">paczka</code> miejsce gdzie znajduje się jakaś paczka, <code style="color:
+green">cel</code> miejsce do którego paczka ma zostać dopchana, <code
+style="color: yellow">robot</code> miejsce gdzie aktualnie znajduje się robot. <code>poziomo</code> oznacza, że dwa pola sąsiadują ze sobą w poziomie, a <code>pionowo</code>, że dwa pola sąsiadują ze sobą w pionie. Robot może przechodzić tylko między sąsiadującymi polami.
+</p>
+<p>Wygenerowany plan (choćby i częściowy) możesz przetestować wklejając go w pole tekstowe poniżej i klikając przycisk <em>Uruchom</em>.</p>
+</div>
+</div>
+
+<div id="infobox">
+</div>
+
+<div class="panel panel-default">
+<div class="panel-body">
+<div class="row">
+<div class="col-md-6">
+<canvas id="main" width='500' height='350'></canvas>
+</div>
+
+<div class="col-md-6">
+
+<div class="btn-group">
+<button type="button" class="btn btn-default" onclick='reset()'>Reset</button>
+<button type="button" class="btn btn-default" onclick='run()'>Uruchom</button>
+Prędkość kroku animacji (w ms): <input type="number" id="speed" min="1" max="500" value="10">
+</div>
+
+<textarea id="plan" rows="20" class="form-control">
+(idz f_12_10 f_12_9)
+(idz f_12_9 f_13_9)
+(idz f_13_9 f_14_9)
+(idz f_14_9 f_15_9)
+(idz f_15_9 f_15_10)
+(idz f_15_10 f_16_10)
+(pchaj f_16_10 f_17_10 f_18_10)
+(idz f_17_10 f_18_10)
+</textarea>
+</div>
+</div>
+</div>
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">Instancja problemu w PDDL</h3>
+</div>
+
+<div class="panel-body">
+<div class="row">
+<div class="col-md-12">
+<textarea id="pddl" rows="20"  class="form-control" readonly="true">
+</textarea>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+<!--
+vim:enc=utf-8
+vim:fenc=utf-8
+-->

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Świat paczek w PDDL</title>
+<script src="jquery-1.11.1.min.js"></script>
+<script src='jcanvas.min.js'></script>
+<script src="common.js"></script>
+<script src="wob.js"></script>
+<script>
+$(function(){createMenu(); loadProblem(problems[0]);});
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+<div class="jumbotron">
+<h1>Świat paczek</h1>
+<p>
+Przestaw paczki, żeby osiągnąć odpowiednie ustawienie.
+</p>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+<p>
+Każdy problem w świecie paczek składa się z kilku stosów paczek oraz podłogi
+dostatecznie dużej, żeby wszystkie paczki dało się rozłożyć płasko obok siebie.
+Paczki mogą być ustawiane w stosy dowolnej wysokości, ale nigdy nie może być
+tak, żeby na jednej paczce bezpośrednio stały dwie inne albo żeby jedna paczka
+stała jednocześnie na dwóch.
+</p>
+
+<p><strong>Zadanie</strong>
+Opisz świat paczek jako problem automatycznego planowania w języku PDDL, a
+następnie przetestuj na kilku przykładowych konfiguracjach. Paczki nazywaj
+zgodnie z oznaczeniami na rysunkach: <em>a, b, c, ...</em>. Jedyne dwa
+dopuszczalne działania to podniesienie paczki i jej opuszczenie, przy czym
+jednocześnie może być podniesiona tylko jedna paczka. Możesz mieć wiele
+operatorów, ale każdy, który podnosi paczkę musi mieć nazwę zaczynającą się od
+<code>podnies</code> i za pierwszy argument przyjmować nazwę paczki do
+podniesienia. Każdy operator, który paczkę odstawia musi mieć nazwę zaczynającą
+się od <code>opusc</code>. Jeżeli jego pierwszy argument zostanie rozpoznany
+jako paczka leżącą na podłodze i stanowiąca szczyt stosu, to podniesiona paczka
+zostanie na nią odłożona.  Jeżeli nazwa nie zostanie rozpoznana, to paczka zostanie
+odłożona na podłogę.  </p>
+
+<p>
+Zrealizuj poniższe punkty:
+<ol>
+<li>Opisz dziedzinę problemu w języku PDDL</li>
+<li>Wybierz konfigurację z poniższego menu</li>
+<li>Opisz przedstawioną konfigurację wraz z celem planowania jako plik problemu w PDDL</li>
+<li>Wygeneruj plan</li>
+<li>Wklej plan w poniższe pole tekstowe i kliknij <em>Uruchom</em>. Jeżeli wszystko się powiedzie zobaczysz informację o sukcesie, w przeciwnym razie dowiesz się co jest nie wporządku i będziesz musiał poprawić swoje rozwiązanie.</li>
+<li>Wybierz kolejną konfigurację i wróć do kroku 3.</li>
+</ol>
+</p>
+</div>
+</div>
+
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+Konfiguracje: 
+<div class="btn-group" id="menu">
+</div>
+</div>
+</nav>
+
+<div id="infobox">
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title" id='problem-name'></h3>
+</div>
+<div class="panel-body">
+
+
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">Cel planowania</h3>
+</div>
+<div class="panel-body" id="goal">
+</div>
+</div>
+<canvas id="main" width='400' height='350'></canvas>
+</div>
+<div class="col-md-6">
+<div class="btn-group">
+<button type="button" class="btn btn-default" onclick='reset()'>Reset</button>
+<button type="button" class="btn btn-default" onclick='run()'>Uruchom</button>
+Prędkość kroku animacji (w ms): <input type="number" id="speed" min="1" max="500" value="100">
+</div>
+<div>
+<textarea id="plan" rows="20" class="form-control">
+</textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Wieże Hanoi w PDDL</title>
+<script src="jquery-1.11.1.min.js"></script>
+<script src='jcanvas.min.js'></script>
+<script src="common.js"></script>
+<script src="hanoi.js"></script>
+<script>
+$(function(){reset();});
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+<div class="jumbotron">
+<h1>Wieże Hanoi</h1>
+<p>
+Przenieś krążki z lewa na prawo
+</p>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+<p>
+<a href="http://pl.wikipedia.org/wiki/Wie%C5%BCe_Hanoi">Wieże Hanoi</a> to
+łamigłówka składająca się z trzech palików i leżących na nich krążków.
+Wszystkie krążki mają różne rozmiary i początkowo ułożone są na
+pierwszym paliku tak, że najmniejszy krążek leży na szczycie stosu, a
+największy na jego spodzie. Docelowo wszystkie krążki mają znaleść się na
+prawym paliku. Jedynym dopuszczalnym ruchem jest podniesienie pojedynczego
+krążka ze szczytu stosu i przełożenie na szczyt stosu na innym paliku, przy
+czym w żadnym momencie krążek większy nie może leżeć na mniejszym.</p>
+
+<p><b>Zadanie</b>: opisz łamigłówkę Wieże Hanoi jako problem automatycznego
+planowania w języku PDDL. Przyjmij, że do przeniesienia jest 5 krążków. Paliki
+nazwij <em>x, y, z</em>, tak jak na rysunku poniżej. Operatory możesz nazwać
+dowolnie, ale każdy operator musi mieć przynajmniej dwa argumenty, z których
+pierwszy oznacza palik, z którego jest zabierany krążek, a drugi palik, na
+który krążek jest odkładany. Gdy wygenerujesz plan (choćby i częściowy) możesz
+go zweryfikować wklejając go w pole tekstowe poniżej i klikając
+<em>Uruchom</em>. 
+</p>
+</div>
+</div>
+
+<div id="infobox">
+</div>
+
+<div class="panel panel-default">
+<div class="panel-body">
+<div class="row">
+<div class="col-md-6">
+<canvas id="main" width='500' height='350'></canvas>
+</div>
+<div class="col-md-6">
+
+<div class="btn-group">
+<button type="button" class="btn btn-default" onclick='reset()'>Reset</button>
+<button type="button" class="btn btn-default" onclick='run()'>Uruchom</button>
+<!--
+<button type="button" class="btn btn-default" onclick='$("#plan").val(cheat(n,"x","y","z"))'>Oszukaj</button>
+-->
+Prędkość kroku animacji (w ms):
+<input type="number" id="speed" min="1" max="500" value="100"/>
+</div>
+
+<div>
+<textarea id="plan" rows="20" class="form-control">
+(przesun-na-pusty x y k1)
+(przesun-na-pusty x z k2)
+(przesun y z k1 k2)
+(przesun-na-pusty x y k3)
+(przesun y z k3 k1)
+</textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

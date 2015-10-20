@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Merry w Bag End</title>
+<script src="jquery-1.11.1.min.js"></script>
+<script src='jcanvas.min.js'></script>
+<script src="common.js"></script>
+<script src="merry.js"></script>
+<script>
+$(function(){reset();});
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<body>
+
+<div class="container">
+<div class="jumbotron">
+<h1>Merry w pułapce</h1>
+<p>
+Pomóż Merry'emu wydostać się z piwnic pod Bag End!
+</p>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+<p>
+Merry błąkając się po piwnicach Bag End wpadł w zapadnię mającą powstrzymać nieproszonych gości i wylądował w piwnicy o planie narysowanym poniżej.
+Niestety, w piwnicy snują się jakieś nieprzyjemne opary i utrudniają Merryemu myślenie.
+Pomóż mu wrócić do słonecznego świata! Merry musi:
+<ol>
+<li>odblokować klapę w suficie rozwiązując łamigłówkę, znajdującą się w pomieszczeniu z <code>A</code>;</li>
+<li>dotrzeć do pomieszczenia z drabiną (<code>G</code>).</li>
+</ol>
+
+Uwagi:
+<ul>
+<li>Merry jest zatruty oparami i trzeba tłumaczyć mu bardzo jasno co ma robić używając poniższych operatorów PDDL: 
+<ul>
+<li><code>(wez kolor ...)</code> Weź magiczną kulkę o podanym kolorze. Kolory: <span id="colors"></span>(tylko pierwsza litera się liczy).</li>
+<li><code>(idz cel ...)</code> Idź do wskazanego pomieszczenia sąsiadującego z pomieszczeniem, w którym jest Merry.</li>
+<li><code>(przesun klocek ...)</code>Przesuń klocek o wskazanym numerze.</li>
+</ul>
+Wszystkie argumenty operatorów poza pierwszym są ignorowane. Operatory mogą nazywać się dowolnie, ale ich nazwy muszą zaczynać się od podanych powyżej słów: <code>wez</code>, <code>idz</code>, <code>przesun</code>.
+</li>
+<li>Merry początkowo jest w pomieszczeniu oznaczonym ludzikiem (<code>F</code>).</li>
+<li>Każde drzwi wymagają magicznej kulki w pasującym kolorze.</li>
+<li>Magiczne kulki pozwala na jednorazowe przejście przez drzwi i natychmiast po przejściu znikają. Żeby ponownie przejść przez te same drzwi Merry musi znaleść kolejną kulkę w odpowiednim kolorze.</li>
+<li>Można mieć jednocześnie kilka magicznych kulek w tym samym kolorze.</li>
+<li>Niektóre drzwi można otworzyć z obu stron, a niektóre tylko z jednej. Na rysunku oznaczone jest to strzałką, która pokazuje, w którą stronę można przez drzwi przechodzić.</li>
+<li>Łamigłówka znajduje się w pomieszczeniu <code>A</code>.
+Żeby odblokować klapę, trzeba klocki w łamigłówce ułożyć rzędami w kolejności rosnącej.
+Puste pole ma być w prawym, dolnym rogu. Jedyna dopuszczalna operacja to przesunięcie pojedynczego klocka sąsiadującego z pustym miejscem.
+</li>
+</ul>
+
+<b>Pomóż Merry'emu!</b> Napisz program w PDDL, który rozwiąże przedstawiony problem, wklej plan w pole poniżej i wypuść biednego Merry'ego z piwnicy.
+</p>
+</div>
+</div>
+
+<div id="infobox">
+</div>
+
+<div class="panel panel-default">
+<div class="panel-body">
+<div class="row">
+<div class="col-md-6">
+<canvas id="main" width='500' height='350'></canvas>
+</div>
+<div class="col-md-6">
+
+<div class="btn-group">
+<button type="button" class="btn btn-default" onclick='reset()'>Reset</button>
+<button type="button" class="btn btn-default" onclick='run()'>Uruchom</button>
+<!--
+<button type="button" class="btn btn-default" onclick='$("#plan").val(cheat(n,"x","y","z"))'>Oszukaj</button>
+-->
+Prędkość kroku animacji (w ms):
+<input type="number" id="speed" min="1" max="500" value="100"/>
+</div>
+
+<div>
+<textarea id="plan" rows="20" class="form-control">
+(wez niebieski)
+(wez niebieski)
+(idz G)
+(przesun 2)
+</textarea>
+<!--
+(wez niebieski)
+(wez niebieski)
+(idz I)
+(wez niebieski)
+(wez pomaranczowy)
+(idz H)
+(wez zolty)
+(wez czerwony)
+(idz E)
+(wez zolty)
+(wez niebieski)
+(idz F)
+(idz D)
+(wez zolty)
+(wez czerwony)
+(idz F)
+(idz E)
+(idz C)
+(wez pomaranczowy)
+(idz A)
+(przesun lk2 lp32 lp22 p1)
+(przesun lk6 lp33 lp32 p1)
+(przesun lk3 lp23 lp33 p1)
+(przesun lk2 lp22 lp23 p1)
+(przesun lk8 lp21 lp22 p1)
+(przesun lk5 lp11 lp21 p1)
+(przesun lk4 lp12 lp11 p1)
+(przesun lk1 lp13 lp12 p1)
+(przesun lk2 lp23 lp13 p1)
+(przesun lk3 lp33 lp23 p1)
+(przesun lk6 lp32 lp33 p1)
+(przesun lk8 lp22 lp32 p1)
+(przesun lk5 lp21 lp22 p1)
+(przesun lk4 lp11 lp21 p1)
+(przesun lk1 lp12 lp11 p1)
+(przesun lk2 lp13 lp12 p1)
+(przesun lk3 lp23 lp13 p1)
+(przesun lk6 lp33 lp23 p1)
+(wez zolty)
+(idz B)
+(wez rozowy)
+(idz D)
+(idz F)
+(idz G)
+-->
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
