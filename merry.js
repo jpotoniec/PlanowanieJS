@@ -273,7 +273,7 @@ function decodePlan(text)
 		{
 			console.log(args[1]);
 			var n=/[1-9]/.exec(args[1]);
-			if(n===undefined)
+			if(n===null)
 				throw "Nie znam klocka "+args[1];
 			plan.push(["move",n[0]]);
 		}
